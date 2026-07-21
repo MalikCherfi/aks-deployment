@@ -42,7 +42,7 @@ spec:
             - name: PORT
               value: "8081"
             - name: BOOKS_API_HOST
-              value: "books-service.books-app:8081" # <--- Ajout du namespace et du port
+              value: "books-service.books-app:8081"
             - name: MOVIES_API_HOST
               value: "movies-service.movies-app:8081"
           ports:
