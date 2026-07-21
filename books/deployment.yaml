@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books-app
+  labels:
+    app.kubernetes.io/name: books-app
+    app.kubernetes.io/instance: books-app
+    app.kubernetes.io/version: "1.14.2"
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: demo-app
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: books-app
+      app.kubernetes.io/instance: books-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: books-app
+        app.kubernetes.io/instance: books-app
+        app.kubernetes.io/version: "1.14.2"
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: demo-app
+        app.kubernetes.io/managed-by: kustomize
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: books-app
+              app.kubernetes.io/instance: books-app
+      containers:
+        - name: books-app
+          image: kubernetes/media-api:1.0.0
+          imagePullPolicy: IfNotPresent
+          command: ["/app/books"]
+          env:
+            - name: PORT
+              value: "8081"
+          ports:
+            - name: http
+              containerPort: 8081
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
