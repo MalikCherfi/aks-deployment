@@ -13,7 +13,7 @@ spec:
             value: /books
       backendRefs:
         - name: books-service
-          namespace: books-app
+          namespace: demo-app
           port: 8081
     - matches:
         - path:
@@ -21,7 +21,7 @@ spec:
             value: /movies
       backendRefs:
         - name: movies-service
-          namespace: movies-app
+          namespace: demo-app
           port: 8081
     - matches:
         - path:
@@ -29,5 +29,5 @@ spec:
             value: /
       backendRefs:
         - name: api-service
-          namespace: api-app
+          namespace: demo-app
           port: 8081
