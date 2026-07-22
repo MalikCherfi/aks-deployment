@@ -1,8 +1,8 @@
-# kustomization.yaml (racine)
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - kubernetes/namespace.yaml
   - kubernetes/api
   - kubernetes/books
   - kubernetes/movies
