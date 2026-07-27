@@ -31,12 +31,14 @@ spec:
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
+              app.kubernetes.io/name: movies-app
               app.kubernetes.io/part-of: demo-app
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
+              app.kubernetes.io/name: movies-app
               app.kubernetes.io/part-of: demo-app
       containers:
         - name: movies-app
