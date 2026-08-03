@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  CONTAINER_NAME: "api"
+  RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -66,3 +70,38 @@ jobs:
 
       - name: Tests Go ${{ matrix.go-version }}
         run: go test ./...
+
+  buildImage:
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    needs: [lint, test, test-matrix]
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    outputs:
+      acr_name: ${{ steps.get-acr.outputs.acr_name }}
+    steps:
+      # Checks out the repository this file is in
+      - uses: actions/checkout@v7
+
+      # Logs in with your Azure credentials
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Retrieve ACR name from ACR tags
+        id: get-acr
+        run: |
+          ACR_NAME=$(az acr list --resource-group ${{ env.RESOURCE_GROUP }} \
+          --query "[?tags.owner=='malik-cherfi'].name" -o tsv)
+          echo "acr_name=$ACR_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push image to ACR
+        run: |
+          az acr build \
+          --image ${{ steps.get-acr.outputs.acr_name }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} \
+          --registry ${{ steps.get-acr.outputs.acr_name }} \
+          -g ${{ env.RESOURCE_GROUP }} .
