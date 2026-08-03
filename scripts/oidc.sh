@@ -5,7 +5,7 @@ RG="mcherfiRG"
 LOCATION="francecentral"
 IDENTITY_NAME="github-mi-malikcherfi"
 GITHUB_ORG="MalikCherfi"
-GITHUB_REPO="aks-deployment"
+GITHUB_REPO="aks-deployment-app"
 BRANCH="main"
 
 RG_ID=$(az group show --name "mcherfiRG" --query id -o tsv)
