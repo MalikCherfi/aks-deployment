@@ -105,3 +105,11 @@ jobs:
           --image ${{ steps.get-acr.outputs.acr_name }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} \
           --registry ${{ steps.get-acr.outputs.acr_name }} \
           -g ${{ env.RESOURCE_GROUP }} .
+
+      - name: Update LAST_BUILD_SHA in Deploy Repo
+        run: |
+          gh variable set LAST_BUILD_SHA \
+            --body "${{ github.sha }}" \
+            --repo MalikCherfi/aks-deployment-cd
+        env:
+          GH_TOKEN: ${{ secrets.PAT_UPDATE_DEPL_REPO }}
