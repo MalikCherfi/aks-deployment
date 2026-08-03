@@ -6,3 +6,4 @@ resources:
   - kubernetes/api
   - kubernetes/books
   - kubernetes/movies
+  - kubernetes/quota.yaml
