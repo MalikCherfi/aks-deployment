@@ -64,9 +64,9 @@ func main() {
 	})
 
 	r.GET("/healthz", func(c *gin.Context) {
-    	c.JSON(http.StatusOK, gin.H{
-        "status": "ok",
-    	})
+		c.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
 	})
 
 	if err := r.Run(); err != nil {
