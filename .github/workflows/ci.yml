@@ -72,6 +72,8 @@ jobs:
         run: go test ./...
 
   buildImage:
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    needs: [lint, test, test-matrix]
     permissions:
       contents: read
       id-token: write
