@@ -49,9 +49,9 @@ spec:
             - name: PORT
               value: "8081"
             - name: BOOKS_API_HOST
-              value: "books-service.books-app:8081"
+              value: "books-service.demo-app:8081"
             - name: MOVIES_API_HOST
-              value: "movies-service.movies-app:8081"
+              value: "movies-service.demo-app:8081"
           ports:
             - name: http
               containerPort: 8081
