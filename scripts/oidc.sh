@@ -29,7 +29,7 @@ SUB_ID=$(az account show --query id -o tsv)
 TENANT_ID=$(az account show --query tenantId -o tsv)
 
 # Create federated credentials for main
-az identity federated-credential update \
+az identity federated-credential create \
   --name "github-${GITHUB_REPO}-${BRANCH}-main" \
   --identity-name "$IDENTITY_NAME" \
   --resource-group "$RG" \
@@ -38,7 +38,7 @@ az identity federated-credential update \
   --audiences "api://AzureADTokenExchange"
 
 # Create federated credentials for pull requests
-az identity federated-credential update \
+az identity federated-credential create \
   --name "github-${GITHUB_REPO}-${BRANCH}-pull-requests" \
   --identity-name "$IDENTITY_NAME" \
   --resource-group "$RG" \
