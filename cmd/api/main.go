@@ -69,7 +69,7 @@ func main() {
 		})
 	})
 
-	if err := r.Run(":8081"); err != nil {
+	if err := r.Run(); err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
 }
