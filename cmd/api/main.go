@@ -69,6 +69,18 @@ func main() {
 		})
 	})
 
+	r.GET("/test", func(c *gin.Context) {
+        art := `
+       /\
+      /  \     [ OK ] System status: nominal
+     | == |    ---------------------------------
+    /| == |\   Tout fonctionne parfaitement sur
+   /_|____|_\  votre pod Go / Gin !
+     /||||\
+        `
+        c.String(http.StatusOK, art)
+    })
+
 	if err := r.Run(); err != nil {
 		log.Fatalf("failed to run server: %v", err)
 	}
